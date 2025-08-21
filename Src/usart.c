@@ -26,11 +26,11 @@
 #include "tim.h"
 #include "filter.h"
 
- uint8_t Usart6_Rbuffer[BUFFERSIZE] = {0};  		//Usart6,ÓëÖĞ¼ä°åÍ¨ĞÅ
+ uint8_t Usart6_Rbuffer[BUFFERSIZE] = {0};  		//Usart6,ä¸ä¸­é—´æ¿é€šä¿¡
  uint8_t Usart6_Tbuffer[BUFFERSIZE] = {0};
  uint8_t Uart7_Rbuffer[10] = {0};  		
  uint8_t Uart7_Tbuffer[BUFFERSIZE] = {0};
- uint8_t ReceiveBuffer2[BUFFERSIZE] = {0};    //Usart8,JetsonnanoÓëstm32Í¨ĞÅ 
+ uint8_t ReceiveBuffer2[BUFFERSIZE] = {0};    //Usart8,Jetsonnanoä¸stm32é€šä¿¡ 
  uint8_t TransBuffer2Jetson[BUFFERSIZE] = {0};
  uint8_t send_f103_flag = 0;
  uint16_t m2006_lock = 1;
@@ -77,7 +77,7 @@ void MX_UART7_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN UART7_Init 2 */
-  __HAL_UART_ENABLE_IT(&huart7, UART_IT_IDLE); //Ê¹ÄÜIDLEÖĞ¶Ï
+  __HAL_UART_ENABLE_IT(&huart7, UART_IT_IDLE); //ä½¿èƒ½IDLEä¸­æ–­
 	HAL_UART_Receive_DMA(&huart7,Uart7_Rbuffer,BUFFERSIZE);
   /* USER CODE END UART7_Init 2 */
 
@@ -106,7 +106,7 @@ void MX_UART8_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN UART8_Init 2 */
-  __HAL_UART_ENABLE_IT(&huart8, UART_IT_IDLE); //Ê¹ÄÜIDLEÖĞ¶Ï
+  __HAL_UART_ENABLE_IT(&huart8, UART_IT_IDLE); //ä½¿èƒ½IDLEä¸­æ–­
 	HAL_UART_Receive_DMA(&huart8,ReceiveBuffer2,BUFFERSIZE);
   /* USER CODE END UART8_Init 2 */
 
@@ -136,7 +136,7 @@ void MX_USART6_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART6_Init 2 */
-	__HAL_UART_ENABLE_IT(&huart6, UART_IT_IDLE); //Ê¹ÄÜIDLEÖĞ¶Ï
+	__HAL_UART_ENABLE_IT(&huart6, UART_IT_IDLE); //ä½¿èƒ½IDLEä¸­æ–­
 	HAL_UART_Receive_DMA(&huart6, Usart6_Rbuffer,BUFFERSIZE);
   /* USER CODE END USART6_Init 2 */
 
@@ -417,18 +417,18 @@ int fgetc(FILE * f)
   return ch;
 }
 
-////µç»ú¼õËÙ±È//2006
+////ç”µæœºå‡é€Ÿæ¯”//2006
 //float ratio_2006 = 36.0f*7;//
-////Çı¶¯µç»ú¼õËÙ±È//3508
+////é©±åŠ¨ç”µæœºå‡é€Ÿæ¯”//3508
 //float ratio_3508 = 100.0f;//
 
-void Jetsonnaon_Decode()//»ñÈ¡JetsonnaonÊı¾İ
+void Jetsonnaon_Decode()//è·å–Jetsonnaonæ•°æ®
 {
  	
 					
-  int R_C = 75;   //²îËÙÂÖ°ë¾¶£¬mm
-	int R_D = 40;  //¶æÂÖ°ë¾¶£¬mm
-	float w = 0.1; //»úÆ÷ÈË½ÇËÙ¶È
+  int R_C = 75;   //å·®é€Ÿè½®åŠå¾„ï¼Œmm
+	int R_D = 40;  //èˆµè½®åŠå¾„ï¼Œmm
+	float w = 0.1; //æœºå™¨äººè§’é€Ÿåº¦
 	
 	
 	if(ReceiveBuffer2[0]==0x01 && ReceiveBuffer2[1]==0x02)
@@ -439,15 +439,15 @@ void Jetsonnaon_Decode()//»ñÈ¡JetsonnaonÊı¾İ
 			
 			    Motor_5.SpeedExpected=(float)(int)(ReceiveBuffer2[j+1+begin_bum]<<24|ReceiveBuffer2[j+2+begin_bum]<<16|ReceiveBuffer2[j+3+begin_bum]<<8|ReceiveBuffer2[j+4+begin_bum]);
 					//Motor_5.SpeedExpected=Motor_5.SpeedExpected/1000;				  
-					j+=4;           //¶æÂÖ1
+					j+=4;           //èˆµè½®1
 				 
-					Motor_1.SpeedCloseLoop=(int)(ReceiveBuffer2[j+1+begin_bum]<<24|ReceiveBuffer2[j+2+begin_bum]<<16|ReceiveBuffer2[j+3+begin_bum]<<8|ReceiveBuffer2[j+4+begin_bum]);//²îËÙÂÖ1ËÙ¶È£¬mm/s
-					Motor_1.SpeedCloseLoop=Motor_1.SpeedCloseLoop*360*100*36/(2*PI*R_C);	//ÊäÈëµ½µç»úµÄ±Õ»·ËÙ¶ÈÖµ		  
-					j+=4;          //×ó²îËÙÂÖ
+					Motor_1.SpeedCloseLoop=(int)(ReceiveBuffer2[j+1+begin_bum]<<24|ReceiveBuffer2[j+2+begin_bum]<<16|ReceiveBuffer2[j+3+begin_bum]<<8|ReceiveBuffer2[j+4+begin_bum]);//å·®é€Ÿè½®1é€Ÿåº¦ï¼Œmm/s
+					Motor_1.SpeedCloseLoop=Motor_1.SpeedCloseLoop*360*100*36/(2*PI*R_C);	//è¾“å…¥åˆ°ç”µæœºçš„é—­ç¯é€Ÿåº¦å€¼		  
+					j+=4;          //å·¦å·®é€Ÿè½®
 							
-					Motor_2.SpeedCloseLoop=(int)(ReceiveBuffer2[j+1+begin_bum]<<24|ReceiveBuffer2[j+2+begin_bum]<<16|ReceiveBuffer2[j+3+begin_bum]<<8|ReceiveBuffer2[j+4+begin_bum]);//²îËÙÂÖ2ËÙ¶È£¬mm/s
-					Motor_2.SpeedCloseLoop=Motor_2.SpeedCloseLoop*360*100*36/(2*PI*R_C);	//ÊäÈëµ½µç»úµÄ±Õ»·ËÙ¶ÈÖµ				  
-					j+=4;				   //ÓÒ²îËÙÂÖ
+					Motor_2.SpeedCloseLoop=(int)(ReceiveBuffer2[j+1+begin_bum]<<24|ReceiveBuffer2[j+2+begin_bum]<<16|ReceiveBuffer2[j+3+begin_bum]<<8|ReceiveBuffer2[j+4+begin_bum]);//å·®é€Ÿè½®2é€Ÿåº¦ï¼Œmm/s
+					Motor_2.SpeedCloseLoop=Motor_2.SpeedCloseLoop*360*100*36/(2*PI*R_C);	//è¾“å…¥åˆ°ç”µæœºçš„é—­ç¯é€Ÿåº¦å€¼				  
+					j+=4;				   //å³å·®é€Ÿè½®
 
 					
 				}
@@ -460,32 +460,32 @@ void Jetsonnaon_Decode()//»ñÈ¡JetsonnaonÊı¾İ
 //					Motor_6.PositionExpected=(float)(int)(ReceiveBuffer2[j+1+begin_bum]<<24|ReceiveBuffer2[j+2+begin_bum]<<16|ReceiveBuffer2[j+3+begin_bum]<<8|ReceiveBuffer2[j+4+begin_bum]);
 //					//Motor_6.PositionExpected=Motor_6.PositionExpected*8192*ratio_2006/360;
 //					j+=4;
-					if(ReceiveBuffer2[5] == 0x0)//Í£Ö¹
+					if(ReceiveBuffer2[5] == 0x0)//åœæ­¢
 					{
 						Motor_5.SpeedExpected = 0;
 						Motor_1.SpeedCloseLoop = 0;
 						Motor_2.SpeedCloseLoop = 0;
 						Motor_6.PositionExpected =0; 
 					}
-			    if(ReceiveBuffer2[5] == 0x1)//ÓÒ×ª
+			    if(ReceiveBuffer2[5] == 0x1)//å³è½¬
 					{
-						Motor_6.PositionExpected = -90; // ¶È
+						Motor_6.PositionExpected = -90; // åº¦
 						Motor_5.SpeedExpected = 293*w;    //mm/s
 						
-						Motor_1.SpeedCloseLoop = -245*w*360*100*36/(2*PI*R_C);//245Îª²îËÙÂÖÂÖ¾àµÄÒ»°ë£¬36Îªµç»ú¼õËÙ±È
+						Motor_1.SpeedCloseLoop = -245*w*360*100*36/(2*PI*R_C);//245ä¸ºå·®é€Ÿè½®è½®è·çš„ä¸€åŠï¼Œ36ä¸ºç”µæœºå‡é€Ÿæ¯”
 						Motor_2.SpeedCloseLoop = 245*w*360*100*36/(2*PI*R_C);					  
 					}
-					if(ReceiveBuffer2[5] == 0x2)//×ó×ª
+					if(ReceiveBuffer2[5] == 0x2)//å·¦è½¬
 					{
-						Motor_6.PositionExpected = -90; // ¶È
+						Motor_6.PositionExpected = -90; // åº¦
 						Motor_5.SpeedExpected = -293*w;    //mm/s
 						
-						Motor_1.SpeedCloseLoop = 245*w*360*100*36/(2*PI*R_C);//245Îª²îËÙÂÖÂÖ¾àµÄÒ»°ë£¬36Îªµç»ú¼õËÙ±È
+						Motor_1.SpeedCloseLoop = 245*w*360*100*36/(2*PI*R_C);//245ä¸ºå·®é€Ÿè½®è½®è·çš„ä¸€åŠï¼Œ36ä¸ºç”µæœºå‡é€Ÿæ¯”
 						Motor_2.SpeedCloseLoop = -245*w*360*100*36/(2*PI*R_C);	
 					  
 					}
 					
-					if(ReceiveBuffer2[5] == 0x3)//Ö±ĞĞ
+					if(ReceiveBuffer2[5] == 0x3)//ç›´è¡Œ
 					{
 						Motor_5.SpeedExpected = 20;
 						Motor_1.SpeedCloseLoop = 20*360*100*36/(2*PI*R_C);
@@ -493,7 +493,7 @@ void Jetsonnaon_Decode()//»ñÈ¡JetsonnaonÊı¾İ
 						Motor_6.PositionExpected =0; 
 					  
 					}
-					if(ReceiveBuffer2[2] == 0x4)//µ¹ÍË
+					if(ReceiveBuffer2[2] == 0x4)//å€’é€€
 					{
 						Motor_5.SpeedExpected = -30;
 						Motor_1.SpeedCloseLoop = -30*360*100*36/(2*PI*R_C);
@@ -509,19 +509,19 @@ void Jetsonnaon_Decode()//»ñÈ¡JetsonnaonÊı¾İ
 				  int begin_bum=1;
 			    Usart6_Tbuffer[0] = 0x04;
 			    Usart6_Tbuffer[1] = 0xff;
-					//Ë®ÏÂµç»ú
+					//æ°´ä¸‹ç”µæœº
 					Motor_Dcval[0]=(uint16_t)(ReceiveBuffer2[j+1+begin_bum]<<8|ReceiveBuffer2[j+2+begin_bum]);
-			    Usart6_Tbuffer[2] = ReceiveBuffer2[j+1+begin_bum];//Ë®ÏÂµç»ú1 PWM¿ØÖÆÖµ
+			    Usart6_Tbuffer[2] = ReceiveBuffer2[j+1+begin_bum];//æ°´ä¸‹ç”µæœº1 PWMæ§åˆ¶å€¼
 					Usart6_Tbuffer[3] = ReceiveBuffer2[j+2+begin_bum];
 			    j+=2;
 					
 					Motor_Dcval[1]=(uint16_t)(ReceiveBuffer2[j+1+begin_bum]<<8|ReceiveBuffer2[j+2+begin_bum]);			
-					Usart6_Tbuffer[4] = ReceiveBuffer2[j+1+begin_bum];//Ë®ÏÂµç»ú2 PWM¿ØÖÆÖµ
+					Usart6_Tbuffer[4] = ReceiveBuffer2[j+1+begin_bum];//æ°´ä¸‹ç”µæœº2 PWMæ§åˆ¶å€¼
 					Usart6_Tbuffer[5] = ReceiveBuffer2[j+2+begin_bum];
 					j+=2;
 			    
 					Motor_Dcval[2]=(uint16_t)(ReceiveBuffer2[j+1+begin_bum]<<8|ReceiveBuffer2[j+2+begin_bum]);			
-					Usart6_Tbuffer[6] = ReceiveBuffer2[j+1+begin_bum];//Ë®ÏÂµç»ú3 PWM¿ØÖÆÖµ
+					Usart6_Tbuffer[6] = ReceiveBuffer2[j+1+begin_bum];//æ°´ä¸‹ç”µæœº3 PWMæ§åˆ¶å€¼
 					Usart6_Tbuffer[7] = ReceiveBuffer2[j+2+begin_bum];
 					j+=2;
 			    
@@ -533,9 +533,9 @@ void Jetsonnaon_Decode()//»ñÈ¡JetsonnaonÊı¾İ
 				  int begin_bum=1;//(1+4)*4
 					Usart6_Tbuffer[0] = 0x04;
 			    Usart6_Tbuffer[1] = 0xff;
-					//ÀëĞÄ·ç»ú
+					//ç¦»å¿ƒé£æœº
 				  Fan_Dcval[0]=(uint16_t)(ReceiveBuffer2[j+1+begin_bum]<<8|ReceiveBuffer2[j+2+begin_bum]);
-			    Usart6_Tbuffer[8] = ReceiveBuffer2[j+1+begin_bum];//ÀëĞÄ·ç»ú1 PWM¿ØÖÆÖµ
+			    Usart6_Tbuffer[8] = ReceiveBuffer2[j+1+begin_bum];//ç¦»å¿ƒé£æœº1 PWMæ§åˆ¶å€¼
 					Usart6_Tbuffer[9] = ReceiveBuffer2[j+2+begin_bum];
 					j+=2;
 					if(Fan_Dcval[0]>950)
@@ -545,7 +545,7 @@ void Jetsonnaon_Decode()//»ñÈ¡JetsonnaonÊı¾İ
 					
 					Fan_Dcval[1]=(uint16_t)(ReceiveBuffer2[j+1+begin_bum]<<8|ReceiveBuffer2[j+2+begin_bum]);
 					
-					Usart6_Tbuffer[10] = ReceiveBuffer2[j+1+begin_bum];//ÀëĞÄ·ç»ú2 PWM¿ØÖÆÖµ
+					Usart6_Tbuffer[10] = ReceiveBuffer2[j+1+begin_bum];//ç¦»å¿ƒé£æœº2 PWMæ§åˆ¶å€¼
 					Usart6_Tbuffer[11] = ReceiveBuffer2[j+2+begin_bum];
 					j+=2;
 					if(Fan_Dcval[1]>950)
@@ -555,7 +555,7 @@ void Jetsonnaon_Decode()//»ñÈ¡JetsonnaonÊı¾İ
 			    
 					Fan_Dcval[2]=(uint16_t)(ReceiveBuffer2[j+1+begin_bum]<<8|ReceiveBuffer2[j+2+begin_bum]);
 					
-					Usart6_Tbuffer[12] = ReceiveBuffer2[j+1+begin_bum];//ÀëĞÄ·ç»ú3 PWM¿ØÖÆÖµ
+					Usart6_Tbuffer[12] = ReceiveBuffer2[j+1+begin_bum];//ç¦»å¿ƒé£æœº3 PWMæ§åˆ¶å€¼
 					Usart6_Tbuffer[13] = ReceiveBuffer2[j+2+begin_bum];
 			    j+=2;
 					if(Fan_Dcval[2]>950)
@@ -574,7 +574,7 @@ void Jetsonnaon_Decode()//»ñÈ¡JetsonnaonÊı¾İ
 				int j=0;
 				int begin_bum=1;			
 			
-			//Ë®ÏÂÍÆ½øÆ÷
+			//æ°´ä¸‹æ¨è¿›å™¨
 				Thruster_Dcval[0] = (uint16_t)(ReceiveBuffer2[j+1+begin_bum]<<8|ReceiveBuffer2[j+2+begin_bum]);
 				j+=2;
 				
@@ -675,7 +675,7 @@ if(ReceiveBuffer2[0]==0x06 && ReceiveBuffer2[1]==0x07)
 					//Motor_6.PositionExpected=Motor_6.PositionExpected*8192*ratio_2006/360;
 					j+=4;
 
-					//Ë®ÏÂµç»ú
+					//æ°´ä¸‹ç”µæœº
 					Motor_Dcval[0]=(int)(ReceiveBuffer2[j+1+begin_bum]<<24|ReceiveBuffer2[j+2+begin_bum]<<16|ReceiveBuffer2[j+3+begin_bum]<<8|ReceiveBuffer2[j+4+begin_bum]);
 					j+=4;
 					
@@ -687,7 +687,7 @@ if(ReceiveBuffer2[0]==0x06 && ReceiveBuffer2[1]==0x07)
 
 	
 					
-					//ÀëĞÄ·ç»ú
+					//ç¦»å¿ƒé£æœº
 				  Fan_Dcval[0]=(int)(ReceiveBuffer2[j+1+begin_bum]<<24|ReceiveBuffer2[j+2+begin_bum]<<16|ReceiveBuffer2[j+3+begin_bum]<<8|ReceiveBuffer2[j+4+begin_bum]);
 					j+=4;
 					if(Fan_Dcval[0]>950)
@@ -708,7 +708,7 @@ if(ReceiveBuffer2[0]==0x06 && ReceiveBuffer2[1]==0x07)
 						Fan_Dcval[2] = 950;
 					}
 			    
-//×ª·¢f103						
+//è½¬å‘f103						
 //				 for(j=0;j<8;j++)
 //				{
 //					TransBuffer1[j]=ReceiveBuffer2[j+1+begin_bum];
@@ -730,7 +730,7 @@ if(ReceiveBuffer2[0]==0x06 && ReceiveBuffer2[1]==0x07)
 				int j=0;
 				int begin_bum=1;			
 			
-			//Ë®ÏÂÍÆ½øÆ÷
+			//æ°´ä¸‹æ¨è¿›å™¨
 				Thruster_Dcval[0] = (uint16_t)(ReceiveBuffer2[j+1+begin_bum]<<8|ReceiveBuffer2[j+2+begin_bum]);
 				j+=2;
 				
@@ -766,8 +766,8 @@ void Adc_Decode()
 		for(int i = 0;i<3;i++)
 		{
 			Adsorp_Force_receive[i] = Uart7_Rbuffer[j+2]<<8| Uart7_Rbuffer[j+3];
-		  Adsorp_Force_send[i] = (float)Adsorp_Force_receive[i]/4095*666;      // Îü¸½Á¦½ÓÊÜË³Ğò 3 1 2 £¬µ¥Î»N	
-			Adsorp_Force_send[i] = ForceSensorFilter(i, Adsorp_Force_send[i]);   // ÖĞÖµÂË²¨ÒÖÖÆÍ»´Ì£¬Ò»½×µÍÍ¨Æ½»¬Êä³ö
+		  Adsorp_Force_send[i] = (float)Adsorp_Force_receive[i]/4095*666;      // å¸é™„åŠ›æ¥å—é¡ºåº 3 1 2 ï¼Œå•ä½N	
+			Adsorp_Force_send[i] = ForceSensorFilter(i, Adsorp_Force_send[i]);   // ä¸­å€¼æ»¤æ³¢æŠ‘åˆ¶çªåˆºï¼Œä¸€é˜¶ä½é€šå¹³æ»‘è¾“å‡º
 			j+=2;
 		}
 		
@@ -808,33 +808,33 @@ void DataSend_Jetsonnano()
 	int begin_bum=1;
 	TransBuffer2Jetson[0] = 0x51;
 	TransBuffer2Jetson[1] = 0x51;
-	Motor_Data_Packed(TransBuffer2Jetson,Motor_6,begin_bum);//1 ¶æÂÖ×ªÏòµç»ú
+	Motor_Data_Packed(TransBuffer2Jetson,Motor_6,begin_bum);//1 èˆµè½®è½¬å‘ç”µæœº
 	begin_bum+=12;
 	
-	Motor_Data_Packed(TransBuffer2Jetson,Motor_5,begin_bum);//2 ¶æÂÖÇı¶¯µç»ú
+	Motor_Data_Packed(TransBuffer2Jetson,Motor_5,begin_bum);//2 èˆµè½®é©±åŠ¨ç”µæœº
 	begin_bum+=12;
 	
-	Motor_Data_Packed(TransBuffer2Jetson,Motor_1,begin_bum);//3 ²îËÙÂÖµç»ú1
+	Motor_Data_Packed(TransBuffer2Jetson,Motor_1,begin_bum);//3 å·®é€Ÿè½®ç”µæœº1
 	begin_bum+=12;
 	
-	Motor_Data_Packed(TransBuffer2Jetson,Motor_2,begin_bum);//4 ²îËÙÂÖµç»ú2
+	Motor_Data_Packed(TransBuffer2Jetson,Motor_2,begin_bum);//4 å·®é€Ÿè½®ç”µæœº2
 	begin_bum+=12;
 	
-	Adsorp_Force_send[1] = Adsorp_Force_send[1]*1000;                 //Îü¸½Ç»1Îü¸½Á¦
+	Adsorp_Force_send[1] = Adsorp_Force_send[1]*1000;                 //å¸é™„è…”1å¸é™„åŠ›
 	TransBuffer2Jetson[begin_bum+1]=(int)Adsorp_Force_send[1];
 	TransBuffer2Jetson[begin_bum+2]=(int)Adsorp_Force_send[1]>>8;
 	TransBuffer2Jetson[begin_bum+3]=(int)Adsorp_Force_send[1]>>16;
 	TransBuffer2Jetson[begin_bum+4]=(int)Adsorp_Force_send[1]>>24;
 	begin_bum+=4;
 	
-	Adsorp_Force_send[2] = Adsorp_Force_send[2]*1000;                 //Îü¸½Ç»2Îü¸½Á¦
+	Adsorp_Force_send[2] = Adsorp_Force_send[2]*1000;                 //å¸é™„è…”2å¸é™„åŠ›
 	TransBuffer2Jetson[begin_bum+1]=(int)Adsorp_Force_send[2];
 	TransBuffer2Jetson[begin_bum+2]=(int)Adsorp_Force_send[2]>>8;
 	TransBuffer2Jetson[begin_bum+3]=(int)Adsorp_Force_send[2]>>16;
 	TransBuffer2Jetson[begin_bum+4]=(int)Adsorp_Force_send[2]>>24;
 	begin_bum+=4;	
 	
-  Adsorp_Force_send[0] = Adsorp_Force_send[0]*1000;                 //Îü¸½Ç»3Îü¸½Á¦
+  Adsorp_Force_send[0] = Adsorp_Force_send[0]*1000;                 //å¸é™„è…”3å¸é™„åŠ›
 	TransBuffer2Jetson[begin_bum+1]=(int)Adsorp_Force_send[0];
 	TransBuffer2Jetson[begin_bum+2]=(int)Adsorp_Force_send[0]>>8;
 	TransBuffer2Jetson[begin_bum+3]=(int)Adsorp_Force_send[0]>>16;
@@ -842,14 +842,14 @@ void DataSend_Jetsonnano()
 	begin_bum+=4;
   TransBuffer2Jetson[62] = 0x0D;
 	TransBuffer2Jetson[63] = 0x0A;
-	HAL_UART_Transmit_DMA(&huart8,TransBuffer2Jetson,62);
+	HAL_UART_Transmit_DMA(&huart8,TransBuffer2Jetson,64);
 	
 }
 /*
 void Switch_Sense()
 {
 	  TransBuffer[0]=0x09;
-		//123ÅöµØ
+		//123ç¢°åœ°
 		if(HAL_GPIO_ReadPin(Switch_Sense1_GPIO_PORT,Switch_Sense1_GPIO_PIN))
 		{
 			TransBuffer[1]=0x01;
@@ -862,7 +862,7 @@ void Switch_Sense()
 		{
 			TransBuffer[3]=0x03;
 		}
-		//123Î´ÅöµØ
+		//123æœªç¢°åœ°
 		if(!HAL_GPIO_ReadPin(Switch_Sense1_GPIO_PORT,Switch_Sense1_GPIO_PIN))
 		{
 			TransBuffer[1]=0x00;
@@ -876,7 +876,7 @@ void Switch_Sense()
 			TransBuffer[3]=0x00;
 		}
 		
-		//456ÅöµØ	
+		//456ç¢°åœ°	
 		if(HAL_GPIO_ReadPin(Switch_Sense4_GPIO_PORT,Switch_Sense4_GPIO_PIN))
 		{
 			TransBuffer[4]=0x04;
@@ -889,7 +889,7 @@ void Switch_Sense()
 		{
 			TransBuffer[6]=0x06;
 		}
-		//456Î´ÅöµØ	
+		//456æœªç¢°åœ°	
 		if(!HAL_GPIO_ReadPin(Switch_Sense4_GPIO_PORT,Switch_Sense4_GPIO_PIN))
 		{
 			TransBuffer[4]=0x00;
@@ -903,7 +903,7 @@ void Switch_Sense()
 			TransBuffer[6]=0x00;
 		}
 		
-		//789ÅöµØ			
+		//789ç¢°åœ°			
 		if(HAL_GPIO_ReadPin(Switch_Sense7_GPIO_PORT,Switch_Sense7_GPIO_PIN))
 		{
 			TransBuffer[7]=0x07;
@@ -916,7 +916,7 @@ void Switch_Sense()
 		{
 			TransBuffer[9]=0x09;
 		}
-		//789Î´ÅöµØ
+		//789æœªç¢°åœ°
 		if(!HAL_GPIO_ReadPin(Switch_Sense7_GPIO_PORT,Switch_Sense7_GPIO_PIN))
 		{
 			TransBuffer[7]=0x00;
@@ -935,3 +935,4 @@ void Switch_Sense()
 				 
 
 /* USER CODE END 1 */
+
